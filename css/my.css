@@ -1,0 +1,23 @@
+body{
+    background-color: lightblue;
+}
+#container
+{
+    border: 1px black solid;
+    background-color: aliceblue;
+    padding: 20px;
+    display: block;
+    text-align: center;
+    
+}
+
+table
+{
+    border: 1px black solid;
+    display: inline-block;
+}
+#tb_ingredientes td
+{
+    border: 1px black solid;
+    text-align: end; 
+}

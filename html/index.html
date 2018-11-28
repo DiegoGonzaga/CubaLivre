@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Boteco do Gallão</title>
+	<script type="text/javascript" src="../js/baude.js"></script>
+	<link rel="stylesheet" href="../css/my.css">
+</head>
+<body>
+	<div id="container">
+		<h1>Boteco do Gallão</h1>
+		
+		<table id="escolhas">
+				<tr>
+					<td colspan="2"><label>Qual refrigerante?</label></td>
+				</tr>
+			
+				<tr>
+					<td colspan="2" align="center"><input type="radio" name="refrigerante" value="coca" id="coca" checked onclick="definir_bebida('coca')"> 
+				
+					<label for="coca">Coca-Cola</label>
+				
+					<input type="radio" name="refrigerante" value="pepsi" id="pepsi" onclick="definir_bebida('pepsi')">
+				
+					<label for="pepsi">Pepsi</label></td>
+				</tr>
+				<tr>
+					<td><label for="qtde_refrigerante">Refrigerante</label></td>
+					<td><input type="text" id="qtde_refrigerante" onkeyup="definir_qtde_refri(qtde_refrigerante.value)">
+					<label for="qtde_refrigerante">mL</label></td>
+				</tr>
+				<tr>
+					<td><label for="qtde_run">Run</label></td>
+					<td><input type="text" id="qtde_run" onkeyup="definir_qtde_run(qtde_run.value)">
+					<label for="qtde_run">mL</label></td>
+				</tr>
+				<tr>
+					<td><label for="qtde_gelo">Gelo</label></td>
+					<td><input type="text" id="qtde_gelo" onkeyup="definir_qtde_gelo(qtde_gelo.value)">
+					<label for="qtde_gelo">mL</label></td>
+				</tr>
+		</table>
+		<table id='tb_ingredientes'>
+			<tr>
+				<th>Ingrediente</th>
+				<th>Quantidade</th>
+			</tr>
+			<tr>
+				<td>Coca-cola</td>
+				<td>50mL ~ 60mL</td>
+			</tr>
+			<tr>
+				<td>Pepsi</td>
+				<td>60mL ~ 70mL</td>
+			</tr>
+			<tr>
+				<td>Run</td>
+				<td>10mL ~ 30mL</td>
+			</tr>
+			<tr>
+				<td>Gelo</td>
+				<td>20mL</td>
+			</tr>
+		</table>	
+		<div id='resultado'>
+
+		</div>
+	</div>
+	
+	<div id='ola'>
+
+	</div>
+	<script>
+		inicializar();
+	</script>
+</body>
+</html>
