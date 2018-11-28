@@ -141,14 +141,77 @@ function registra_pertinencia()
     pertinencia_run.forte = calc_pertinencia(BASES_RUN.forte,run_ml);
     pertinencia_run.suave = calc_pertinencia(BASES_RUN.suave,run_ml);
     pertinencia_run.fraco = calc_pertinencia(BASES_RUN.fraco,run_ml);
+}
+
+/* Retorna em formato de String o nome da maior pertinência
+ * Retorna undefined caso não houver pertinencia. ou seja, igual a zero
+ */
+function informa_nome_pertinencia(x)
+{
+    var r = calc_max(x.fraco,x.suave,x.forte);
+
+    if( r == 0)
+        return undefined;
+
+    if(r == x.forte)
+        return 'forte';
+    else if (r == x.suave)
+        return 'suave';
+    else
+        return 'fraco';
+
+
+}
+
+function calc_resultado()
+{
+    var refri_r = informa_nome_pertinencia(pertinencia_refri);
     
+    var run_r = informa_nome_pertinencia(pertinencia_run);
+    var gelo_r;
+    var texto='';
+    var erro=0;
+    if(refri_r == undefined)
+        erro+=1;
+    if(run_r == undefined)
+        erro+=2;
+    
+    if(erro>0)
+    {
+        
+        if(erro>=2)
+        {
+            erro-=2;
+            texto='<br>• Run'
+        }
+        if(erro>=1)
+        {
+            erro--;
+            texto='<br>• Refrigerante'+texto;
+        }
+
+        
+        texto='<b>Não é Cuba Livre</b><br><br> Valor(es) inválido(s) digitado(s):'+texto;
+        texto+='<br>OBS: O(s) ingrediente(s) acima possue(m) pertinência 0 nas três intensidades.';
+        return texto;
+    }    
+    texto = refri_r + ' ' + run_r;
+
+    return texto;
 }
 
 //Escreve os resultados no HTML
 function escrever_resultado()
 {
-    var texto = "<b>Suave:</b> máximo[ mínimo { μ CocaForte (x) ; μ RunFraco (x) ; μ Gelo (x) } ; mínimo { μ CocaSuave (x) ; μ RunSuave (x) ; μ Gelo (x) } ;mínimo { μ CocaFraco (x) ; μ RunForte (x) ; μ Gelo (x) }]" ;
-    document.getElementById('resultado').innerHTML= texto;
+    var texto= '<hr>';
+
+    texto += '<b>Suave:</b> máximo[ mínimo { μ CocaForte (x) ; μ RunFraco (x) ; μ Gelo (x) } ; mínimo { μ CocaSuave (x) ; μ RunSuave (x) ; μ Gelo (x) } ;mínimo { μ CocaFraco (x) ; μ RunForte (x) ; μ Gelo (x) }]' ;
+    texto+='<br><b>Forte:</b> máximo[ mínimo { μ CocaForte (x) ; μ RunSuave (x) ; μ Gelo (x) } ; mínimo { μ CocaForte (x) ; μ RunForte (x) ; μ Gelo (x) } ;mínimo { μ CocaSuave (x) ; μ RunForte (x) ; μ Gelo (x)]' ;
+    texto+='<br><b>Fraco:</b> máximo[ mínimo { μ CocaFraco (x) ; μ RunFraco (x) ; μ Gelo (x) } ; mínimo { μ CocaFraco (x) ; μ RunSuave (x) ; μ Gelo (x) } ;mínimo { μ CocaSuave (x) ; μ RunForte (x) ; μ Gelo (x) }]';
+    texto += '<hr>';
+    texto+= '<h3>Resultado</h3>';
+    texto+= calc_resultado();
+    document.getElementById('resultado').innerHTML= texto;    
 }
 
 //Recebe 3 valores e retorna o maior
@@ -161,7 +224,7 @@ function calc_max(x,y,z)
     }
     if( y < z)
     {
-        maior = x;
+        maior = z;
     }
     return maior;
 
@@ -176,11 +239,12 @@ function calc_min(x,y,z)
     }
     if( y > z)
     {
-        menor = x;
+        menor = z;
     }
     return menor;
 
 }
+
 
 //Utilizado para definir valores padrão
 function inicializar()
