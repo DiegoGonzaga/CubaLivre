@@ -209,6 +209,33 @@ function calc_resultado()
     texto+='<br><b>Forte:</b> '+forte;
     texto+='<br><b>Fraco:</b> '+ fraco;
 
+    texto+=informa_valor_bebida();
+    return texto;
+}
+
+function informa_valor_bebida()
+{
+    var r = calc_max(fraco,suave,forte);
+    var texto = '<hr><br><b>Max</b> ( Fraco , Suave , Forte )';
+    var valor;
+    if(forte==r)
+    {
+        r='Forte';
+        valor='R$ 25,00';
+    }
+    else if(r == suave)
+    {
+        r='Suave';
+        valor='R$ 20,00';
+    }
+    else
+    {
+        r='Fraco';
+        valor='R$ 15,00';
+    }
+    texto+='<br><b>Max =</b> '+ r;
+    texto+='<hr><br><b>Valor da bebida:</b> ' + valor;
+    
     return texto;
 }
 
@@ -225,7 +252,7 @@ function escrever_resultado()
     
     
     texto += '<hr>';
-    texto+= '<h3>Resultado</h3>'+ calc_resultado();
+    texto+= '<h3><u>Resultado</u></h3>'+ calc_resultado();
     document.getElementById('resultado').innerHTML= texto;    
 }
 
