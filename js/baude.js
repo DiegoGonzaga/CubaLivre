@@ -68,7 +68,7 @@ function calc_pertinencia(base,valor)
         return 1;
     }
     //Possibilidade de estar fora da escala
-    if(valor <= base[0] || valor >= base[3] )
+    if(valor < base[0] || valor > base[3] )
     {
         return 0;
     }
@@ -79,7 +79,7 @@ function calc_pertinencia(base,valor)
     }
 
     //Possibilidade de estar no decrescente
-    if(valor>base[2] && valor<base[3])
+    if(valor>=base[2] && valor<=base[3])
     {
         return (base[3]-valor)/(base[3]-base[2]);
     }
@@ -185,7 +185,7 @@ function calc_resultado()
         }
 
         
-        texto='<b>Não é Cuba Livre!</b><br><br> Valor(es) inválido(s) digitado(s):'+texto;
+        texto='<b>Não é Cuba Livre!</b><br><br> Valor(es) não compatível(s) com o drink:'+texto;
         texto+='<br>OBS: O(s) ingrediente(s) acima possue(m) pertinência 0 em todas intensidades.';
         return texto;
     }
