@@ -26,6 +26,8 @@ var BASES_PEPSI={
 
 };
 
+var BASES_GELO=[20,20,20,20];
+
 var bases_refri;
 
 //quantidade de refrigerante em mL
@@ -47,8 +49,11 @@ var pertinencia_run={
     forte:undefined
 };
 
+var suave,forte,fraco;
 //quantidade de gelo em mL
 var gelo_ml;
+
+var pertinencia_gelo;
 
 /*
  * 'base' é um vetor com os quatro valores limitantes da pertinencia
@@ -124,7 +129,7 @@ function main()
     //Caso uma das caixas esteja vazia não deve-se exibir nada
     if(refri_ml=='' || run_ml=='' || gelo_ml=='')
     {
-        document.getElementById('resultado').innerHTML= '';
+        document.getElementById('resultado').innerHTML= '<hr>Por favor digite todos os valores dos ingredientes da Cuba Livre';
         return;
     }
     definir_bases();
@@ -141,48 +146,37 @@ function registra_pertinencia()
     pertinencia_run.forte = calc_pertinencia(BASES_RUN.forte,run_ml);
     pertinencia_run.suave = calc_pertinencia(BASES_RUN.suave,run_ml);
     pertinencia_run.fraco = calc_pertinencia(BASES_RUN.fraco,run_ml);
-}
 
-/* Retorna em formato de String o nome da maior pertinência
- * Retorna undefined caso não houver pertinencia. ou seja, igual a zero
- */
-function informa_nome_pertinencia(x)
-{
-    var r = calc_max(x.fraco,x.suave,x.forte);
-
-    if( r == 0)
-        return undefined;
-
-    if(r == x.forte)
-        return 'forte';
-    else if (r == x.suave)
-        return 'suave';
-    else
-        return 'fraco';
-
-
+    pertinencia_gelo = calc_pertinencia(BASES_GELO,gelo_ml);
 }
 
 function calc_resultado()
 {
-    var refri_r = informa_nome_pertinencia(pertinencia_refri);
+    var refri_r = calc_max(pertinencia_refri.fraco,pertinencia_refri.suave,pertinencia_refri.forte);
     
-    var run_r = informa_nome_pertinencia(pertinencia_run);
-    var gelo_r;
+    var run_r = calc_max(pertinencia_run.fraco,pertinencia_run.suave,pertinencia_run.forte);
+    var gelo_r = pertinencia_gelo;
     var texto='';
     var erro=0;
-    if(refri_r == undefined)
+
+    if(refri_r == 0)
         erro+=1;
-    if(run_r == undefined)
+    if(run_r == 0)
         erro+=2;
+    if(gelo_r == 0)
+        erro+=4;
     
     if(erro>0)
     {
-        
+        if(erro>=4)
+        {
+            erro-=4;
+            texto='<br>• Gelo'
+        }
         if(erro>=2)
         {
             erro-=2;
-            texto='<br>• Run'
+            texto='<br>• Run'+texto;
         }
         if(erro>=1)
         {
@@ -192,10 +186,28 @@ function calc_resultado()
 
         
         texto='<b>Não é Cuba Livre</b><br><br> Valor(es) inválido(s) digitado(s):'+texto;
-        texto+='<br>OBS: O(s) ingrediente(s) acima possue(m) pertinência 0 nas três intensidades.';
+        texto+='<br>OBS: O(s) ingrediente(s) acima possue(m) pertinência 0 nas todas intensidades.';
         return texto;
+    }
+    else
+    {
+        suave = calc_max(calc_min(pertinencia_refri.forte,pertinencia_run.fraco,1),
+            calc_min(pertinencia_refri.suave,pertinencia_run.suave,1),
+            calc_min(pertinencia_refri.fraco,pertinencia_run.forte,1)
+        );
+        forte= calc_max( calc_min(pertinencia_refri.forte,pertinencia_run.suave,pertinencia_gelo),
+            calc_min(pertinencia_refri.forte,pertinencia_run.forte,pertinencia_gelo),
+            calc_min(pertinencia_refri.suave,pertinencia_run.forte,pertinencia_gelo)
+        );
+        fraco= calc_max( calc_min(pertinencia_refri.fraco,pertinencia_run.fraco,pertinencia_gelo),
+        calc_min(pertinencia_refri.fraco,pertinencia_run.suave,pertinencia_gelo),
+        calc_min(pertinencia_refri.suave,pertinencia_run.fraco,pertinencia_gelo)
+
+        );
     }    
-    texto = refri_r + ' ' + run_r;
+    texto+='<b>Suave:</b> '+ suave;
+    texto+='<br><b>Forte:</b> '+forte;
+    texto+='<br><b>Fraco:</b> '+ fraco;
 
     return texto;
 }
@@ -205,12 +217,15 @@ function escrever_resultado()
 {
     var texto= '<hr>';
 
+    /*
     texto += '<b>Suave:</b> máximo[ mínimo { μ CocaForte (x) ; μ RunFraco (x) ; μ Gelo (x) } ; mínimo { μ CocaSuave (x) ; μ RunSuave (x) ; μ Gelo (x) } ;mínimo { μ CocaFraco (x) ; μ RunForte (x) ; μ Gelo (x) }]' ;
     texto+='<br><b>Forte:</b> máximo[ mínimo { μ CocaForte (x) ; μ RunSuave (x) ; μ Gelo (x) } ; mínimo { μ CocaForte (x) ; μ RunForte (x) ; μ Gelo (x) } ;mínimo { μ CocaSuave (x) ; μ RunForte (x) ; μ Gelo (x)]' ;
     texto+='<br><b>Fraco:</b> máximo[ mínimo { μ CocaFraco (x) ; μ RunFraco (x) ; μ Gelo (x) } ; mínimo { μ CocaFraco (x) ; μ RunSuave (x) ; μ Gelo (x) } ;mínimo { μ CocaSuave (x) ; μ RunForte (x) ; μ Gelo (x) }]';
+    */
+    
+    
     texto += '<hr>';
-    texto+= '<h3>Resultado</h3>';
-    texto+= calc_resultado();
+    texto+= '<h3>Resultado</h3>'+ calc_resultado();
     document.getElementById('resultado').innerHTML= texto;    
 }
 
