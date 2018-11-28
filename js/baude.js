@@ -185,8 +185,8 @@ function calc_resultado()
         }
 
         
-        texto='<b>Não é Cuba Livre</b><br><br> Valor(es) inválido(s) digitado(s):'+texto;
-        texto+='<br>OBS: O(s) ingrediente(s) acima possue(m) pertinência 0 nas todas intensidades.';
+        texto='<b>Não é Cuba Livre!</b><br><br> Valor(es) inválido(s) digitado(s):'+texto;
+        texto+='<br>OBS: O(s) ingrediente(s) acima possue(m) pertinência 0 em todas intensidades.';
         return texto;
     }
     else
