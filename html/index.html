@@ -19,23 +19,23 @@
 				
 					<label for="coca">Coca-Cola</label>
 				
-					<input type="radio" name="refrigerante" value="pepsi" id="pepsi" onclick="definir_bebida('pepsi')">
+					<input type="radio" name="refrigerante" value="pepsi" id="pepsi" onclick="definir_bebida('pepsi')" >
 				
 					<label for="pepsi">Pepsi</label></td>
 				</tr>
 				<tr>
 					<td><label for="qtde_refrigerante">Refrigerante</label></td>
-					<td><input type="text" id="qtde_refrigerante" onkeyup="definir_qtde_refri(qtde_refrigerante.value)">
+					<td><input type="number" id="qtde_refrigerante" onkeyup="altera_refri(id)" onchange="altera_refri(id)">
 					<label for="qtde_refrigerante">mL</label></td>
 				</tr>
 				<tr>
 					<td><label for="qtde_run">Run</label></td>
-					<td><input type="text" id="qtde_run" onkeyup="definir_qtde_run(qtde_run.value)">
+					<td><input type="number" id="qtde_run" onkeyup="altera_run(id)" onchange="altera_run(id)"">
 					<label for="qtde_run">mL</label></td>
 				</tr>
 				<tr>
 					<td><label for="qtde_gelo">Gelo</label></td>
-					<td><input type="text" id="qtde_gelo" onkeyup="definir_qtde_gelo(qtde_gelo.value)">
+					<td><input type="number" id="qtde_gelo" onkeyup="altera_gelo(id)">
 					<label for="qtde_gelo">mL</label></td>
 				</tr>
 		</table>
@@ -70,6 +70,42 @@
 
 	</div>
 	<script>
+		function validar_valores(nome)
+		{
+			var d= document.getElementById(nome);
+			var x = d.value;
+			if(x<0)
+			{
+				d.value=0;
+			}
+			else if(x > 100)
+			{
+				d.value = 100;
+			}
+			else
+			{
+				d.value=x * 1.0;
+			}
+			
+
+		}
+
+		function altera_refri(id)
+		{
+			validar_valores(id);
+			definir_qtde_refri(document.getElementById(id).value);
+		}
+		function altera_run(id)
+		{
+			validar_valores(id);
+			definir_qtde_run(document.getElementById(id).value);
+		}
+		function altera_gelo(id)
+		{
+			validar_valores(id);
+			definir_qtde_gelo(document.getElementById(id).value);
+		}
+
 		inicializar();
 	</script>
 </body>
